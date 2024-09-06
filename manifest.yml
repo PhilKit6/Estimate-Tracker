@@ -1,0 +1,19 @@
+modules:
+  jira:issuePanel:
+    - key: estimate-tracker-hello-world-issue-panel
+      resource: main
+      resolver:
+        function: resolver
+      render: native
+      title: Estimate-Tracker
+      icon: https://developer.atlassian.com/platform/forge/images/icons/issue-panel-icon.svg
+  function:
+    - key: resolver
+      handler: index.handler
+resources:
+  - key: main
+    path: src/frontend/index.jsx
+app:
+  runtime:
+    name: nodejs20.x
+  id: ari:cloud:ecosystem::app/87eb773c-80e6-4b50-a43a-47838b1b6653
