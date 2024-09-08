@@ -1,8 +1,19 @@
 import React from 'react';
 import ForgeReconciler, { Text } from '@forge/react';
 import { DynamicTable, Link } from "@forge/react";
+import { requestJira } from '@forge/bridge';
+
 
 const App = () => {
+
+  const fetchStoryPointsForIssue = async (issueIdOrKey) => {
+    const res = await requestJira(`/rest/api/3/issue/${issueIdOrKey}`);
+    const data = await res.json();
+    const storyPoints = data.fields["Story Points[Number]"]; // Access the story points field
+    console.log(storyPoints); // Print the story points to the terminal
+    return storyPoints;
+  };
+  
   const estimates = [
     {
       id: 7,
@@ -94,7 +105,7 @@ const App = () => {
       />
     </>
   );
-};
+}; 
 
 ForgeReconciler.render(
   <React.StrictMode>
