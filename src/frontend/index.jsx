@@ -1,19 +1,29 @@
 import React from 'react';
-import ForgeReconciler, { Text } from '@forge/react';
+import ForgeReconciler, { Text, useProductContext } from '@forge/react';
 import { DynamicTable, Link } from "@forge/react";
 import { requestJira } from '@forge/bridge';
 
 
 const App = () => {
+  const context = useProductContext();
 
-  const fetchStoryPointsForIssue = async (issueIdOrKey) => {
-    const res = await requestJira(`/rest/api/3/issue/${issueIdOrKey}`);
+  const [comments, setComments] = React.useState();
+  
+  const fetchCommentsForIssue = async (issueIdOrKey) => {
+    const res = await requestJira(`/rest/api/3/issue/${issueIdOrKey}/comment`);
     const data = await res.json();
-    const storyPoints = data.fields["Story Points[Number]"]; // Access the story points field
-    console.log(storyPoints); // Print the story points to the terminal
-    return storyPoints;
+    return data.comments;
   };
   
+  React.useEffect(() => {
+    if (context) {
+      // extract issue ID from the context
+      const issueId = context.extension.issue.id;
+  
+      fetchCommentsForIssue(issueId).then(setComments);
+    }
+  }, [context]);
+
   const estimates = [
     {
       id: 7,
@@ -50,7 +60,7 @@ const App = () => {
       },
       {
         key: `${estimate.Tech_Design}`,
-        content: estimate.Tech_Design,
+        content: `${comments?.length}`,
       },
       {
         key: `${estimate.Squad_Refinement}`,
