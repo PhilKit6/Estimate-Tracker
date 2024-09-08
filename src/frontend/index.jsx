@@ -3,24 +3,22 @@ import ForgeReconciler, { Text } from '@forge/react';
 import { DynamicTable, Link } from "@forge/react";
 
 const App = () => {
-  const presidents = [
+  const estimates = [
     {
       id: 7,
-      name: "Andrew Jackson",
-      party: "Democrat",
-      term: "1829-1837",
+      Cycle: "1",
+      Product_Design: "M",
+      Tech_Design: "XL",
+      Squad_Refinement: "-",
+      Dev_and_release: "-",
     },
     {
       id: 8,
-      name: "Martin van Buren",
-      party: "Democrat",
-      term: "1837-1841",
-    },
-    {
-      id: 11,
-      name: "James K. Polk",
-      party: "Democrat",
-      term: "1845-1849",
+      Cycle: "2",
+      Product_Design: "M",
+      Tech_Design: "M",
+      Squad_Refinement: "L",
+      Dev_and_release: "-",
     },
   ];
 
@@ -28,20 +26,28 @@ const App = () => {
     return input ? input.replace(/^(the|a|an)/, "").replace(/\s/g, "") : input;
   }
   // applied as rows in the form
-  const rows = presidents.map((president, index) => ({
-    key: `row-${index}-${president.name}`,
+  const rows = estimates.map((estimate, index) => ({
+    key: `row-${index}-${estimate.Cycle}`,
     cells: [
       {
-        key: `${president.name}-${president.id}`,
-        content: <Link href="">{president.name}</Link>,
+        key: `${estimate.Cycle}`,
+        content: estimate.Cycle,
       },
       {
-        key: `${president.party}-${president.name}-${president.id}`,
-        content: president.party,
+        key: `${estimate.Product_Design}`,
+        content: `${estimate.Product_Design} \u27A1`,
       },
       {
-        key: `${president.term}-${president.id}`,
-        content: president.term,
+        key: `${estimate.Tech_Design}`,
+        content: estimate.Tech_Design,
+      },
+      {
+        key: `${estimate.Squad_Refinement}`,
+        content: estimate.Squad_Refinement,
+      },
+      {
+        key: `${estimate.Dev_and_release}`,
+        content: estimate.Dev_and_release,
       },
     ],
   }));
@@ -49,19 +55,31 @@ const App = () => {
   const head = {
     cells: [
       {
-        key: "name",
-        content: "Name",
+        key: "Cycle",
+        content: "Cycle",
         isSortable: true,
       },
       {
-        key: "party",
-        content: "Party",
+        key: "Product_Design",
+        content: "Product Design",
         shouldTruncate: true,
         isSortable: true,
       },
       {
-        key: "term",
-        content: "Term",
+        key: "Tech_Design",
+        content: "Tech Design",
+        shouldTruncate: true,
+        isSortable: true,
+      },
+      {
+        key: "Squad_Refinement",
+        content: "Squad Refinement",
+        shouldTruncate: true,
+        isSortable: true,
+      },
+      {
+        key: "Dev_and_release",
+        content: "Dev and Release",
         shouldTruncate: true,
         isSortable: true,
       },
@@ -70,9 +88,7 @@ const App = () => {
 
   return (
     <>
-      <Text>Hello world!</Text>
       <DynamicTable
-        caption="List of US Presidents"
         head={head}
         rows={rows}
       />
