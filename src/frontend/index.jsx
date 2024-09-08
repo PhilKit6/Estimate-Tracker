@@ -29,7 +29,7 @@ const App = () => {
       id: 7,
       Cycle: "1",
       Product_Design: "M",
-      Tech_Design: "XL",
+      Tech_Design: `${comments?.length}`,
       Squad_Refinement: "-",
       Dev_and_release: "-",
     },
@@ -60,7 +60,7 @@ const App = () => {
       },
       {
         key: `${estimate.Tech_Design}`,
-        content: `${comments?.length}`,
+        content: estimate.Tech_Design,
       },
       {
         key: `${estimate.Squad_Refinement}`,
