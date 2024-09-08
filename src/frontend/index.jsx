@@ -6,21 +6,22 @@ import { requestJira } from '@forge/bridge';
 
 const App = () => {
   const context = useProductContext();
-
-  const [comments, setComments] = React.useState();
   
-  const fetchCommentsForIssue = async (issueIdOrKey) => {
-    const res = await requestJira(`/rest/api/3/issue/${issueIdOrKey}/comment`);
+  // State for storypoints
+  const [storyPoints, setStoryPoints] = React.useState(null);
+  
+  
+  
+  const fetchStoryPointsForIssue = async () => {
+    const issueId = context?.extension.issue.id;
+    const res = await requestJira(`/rest/api/3/issue/${issueId}`);
     const data = await res.json();
-    return data.comments;
+    return data.fields["customfield_10035"]; // Access the storypoints field - maybe
   };
   
   React.useEffect(() => {
     if (context) {
-      // extract issue ID from the context
-      const issueId = context.extension.issue.id;
-  
-      fetchCommentsForIssue(issueId).then(setComments);
+      fetchStoryPointsForIssue().then(setStoryPoints);
     }
   }, [context]);
 
@@ -29,7 +30,7 @@ const App = () => {
       id: 7,
       Cycle: "1",
       Product_Design: "M",
-      Tech_Design: `${comments?.length}`,
+      Tech_Design: `${storyPoints}`,
       Squad_Refinement: "-",
       Dev_and_release: "-",
     },
@@ -60,7 +61,7 @@ const App = () => {
       },
       {
         key: `${estimate.Tech_Design}`,
-        content: estimate.Tech_Design,
+        content: estimate.Tech_Design || 'Loading...',
       },
       {
         key: `${estimate.Squad_Refinement}`,
