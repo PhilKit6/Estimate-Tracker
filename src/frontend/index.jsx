@@ -16,7 +16,7 @@ const App = () => {
     const issueId = context?.extension.issue.id;
     const res = await requestJira(`/rest/api/3/issue/${issueId}`);
     const data = await res.json();
-    return data.fields["customfield_10035"]; // Access the storypoints field - maybe
+    return data.fields["customfield_10035"]; // Access the storypoints field 
   };
   
   React.useEffect(() => {
